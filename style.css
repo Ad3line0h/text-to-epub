@@ -1,292 +1,476 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
-/* 기본 */
-* { box-sizing: border-box; }
-body {
-    font-family: 'Pretendard', sans-serif;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    background: #f8f7ff;
+* {
+  box-sizing: border-box;
 }
 
-/* 헤더 */
+body {
+  font-family: "Pretendard", sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  background: #f8f7ff;
+  overflow: hidden;
+}
+
+/* header */
 header {
-    background: #6e5ba7;
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 15px rgba(110, 91, 167, 0.2);
-    z-index: 100;
+  width: 100%;
+  max-width: 100vw;
+  background: #6e5ba7;
+  color: #fff;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 60px;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+.site-logo {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #fff;
+  margin-right: 20px;
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.meta-inputs input[type="text"],
+.toc-settings,
+.file-group,
+.custom-file-upload,
+.help-container,
+button#download-epub {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.file-group {
+  background: transparent !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
 }
 
 .meta-inputs {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex: 1;
+  display: flex;
+  gap: 8px;
 }
 
 .meta-inputs input[type="text"] {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    font-size: 13px;
-    transition: all 0.2s;
-}
-
-.meta-inputs input[type="text"]:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  padding: 0 12px;
+  width: 200px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 6px;
+  outline: none;
 }
 
 .meta-inputs input[type="text"]::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-/* 표지 */
-.file-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
-    margin-right: 20px;
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-}
-
-.file-group label {
-    font-size: 12px;
-    color: #fff;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-#cover-upload {
-    font-size: 12px;
-    color: #eee;
-    max-width: 180px;
-}
-
-/* 목차 */
-.toc-settings {
-    display: flex;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 4px 12px;
-    border-radius: 8px;
-    margin-left: 10px;
-    font-size: 12px;
-    color: #fff;
-    align-items: center;
-}
-
-.toc-settings span {
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-.toc-settings label {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 1;
 }
 
 .header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-left: auto;
 }
 
-/* 도움말 */
+.row-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.toc-settings,
+.file-group {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: #fff;
+  gap: 8px;
+}
+
+.custom-file-upload {
+  background: #8a79c5;
+  color: #fff;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.custom-file-upload:hover {
+  background: #b3a3ee;
+}
+
+.file-name-wrapper,
 .help-container {
-    position: relative;
-    cursor: pointer;
+  position: relative;
 }
 
-.help-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    transition: all 0.2s ease;
+.file-name-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  height: 32px;
 }
 
-.help-icon:hover {
-    background: #fff;
-    color: #6e5ba7;
+#file-name-display {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+  cursor: help;
+}
+
+.thumb-tooltip,
+.help-tooltip {
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s ease-out;
+  z-index: 10001;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.thumb-tooltip {
+  width: 130px;
+  height: 130px;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #fff;
+  top: 100%;
+  bottom: auto;
+  right: 0;
+  left: auto;
+  margin-top: 10px;
+  transform: translateY(10px);
 }
 
 .help-tooltip {
-    position: absolute;
-    top: 35px;
-    right: 0;
-    width: 220px;
-    background: rgba(255, 255, 255, 0.80);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #4a3f6b;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.help-container:hover .help-tooltip {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
+  width: 260px;
+  padding: 15px;
+  right: 0;
+  left: auto;
+  transform: translateY(10px);
+  top: 100%;
+  bottom: auto;
+  font-size: 12px;
+  color: #626262;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .help-tooltip strong {
-    display: block;
-    margin-bottom: 8px;
-    color: #6e5ba7;
-    font-size: 14px;
+  font-size: 14px;
+  color: #6e5ba7;
 }
 
-.help-tooltip hr {
-    border: 0;
-    border-top: 1px solid #f0edf5;
-    margin: 10px 0;
-}
-
-.help-item {
-    font-size: 12px;
-    margin-bottom: 5px;
-    line-height: 1.4;
+.help-icon {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .help-item b {
-    color: #8a79c5;
-    margin-right: 5px;
+  margin-right: 7px;
+  color: #6e5ba7;
 }
 
-.help-tooltip small {
-    font-size: 11px;
-    color: #999;
+.file-name-wrapper:hover .thumb-tooltip,
+.help-container:hover .help-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* 다운로드 */
+.help-container:hover .help-tooltip {
+  transform: translateY(5px);
+}
+
 button#download-epub {
-    background: #8a79c5;
-    color: white;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.5s ease;
+  background: #8a79c5;
+  color: #fff;
+  border: none;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 button#download-epub:hover {
-    background: #b3a3ee;
-    transform: none;
-    box-shadow: none;
+  background: #b3a3ee !important;
 }
 
-/* 컨테이너 */
+/* container, main-layout */
 .container {
-    flex: 1;
-    display: flex;
-    padding: 15px;
-    overflow: hidden;
+  flex: 1;
+  display: flex;
+  padding: 15px;
+  overflow: hidden;
 }
-
 .main-layout {
-    display: flex;
-    flex: 1;
-    gap: 15px;
-    width: 100%;
+  display: flex;
+  flex: 1;
+  gap: 15px;
+  width: 100%;
 }
-
 .pane {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 14px;
-    border: 1px solid #e1ddec;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(110, 91, 167, 0.05);
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e1ddec;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 }
-
 .pane-title {
-    background: #f1eff9;
-    padding: 10px 15px;
-    font-size: 11px;
-    font-weight: 800;
-    color: #8a79c5;
-    border-bottom: 1px solid #e1ddec;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+  background: #f1eff9;
+  padding: 10px 15px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #8a79c5;
+  border-bottom: 1px solid #e1ddec;
 }
 
-/* 에디터 */
-#editor, #css-editor, #code-view {
-    flex: 1;
-    padding: 20px;
-    outline: none;
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.8;
+#editor-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
 }
 
 #editor {
-    background: #fff;
-    color: #444;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  outline: none;
+  overflow-y: auto;
+  font-size: 15px;
+  line-height: 1.8;
+  background: #fff;
 }
 
 #editor p {
-    margin: 0 0 1.2em 0;
+  margin: 0 0 1.2em 0;
 }
 
-#css-editor {
-    background: #faf9ff;
-    border: none;
-    resize: none;
-    font-family: 'Fira Code', 'Consolas', monospace;
-    color: #5c5470;
-}
-
-.toc-settings, .file-group {
-    display: flex;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 4px 12px;
-    border-radius: 8px;
-    margin-left: 10px;
-    font-size: 12px;
-    color: #fff;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* XTML */
+#css-editor,
 #code-view {
-    background: #1e1e1e;
-    color: #76d6ff;
-    white-space: pre-wrap;
-    font-family: 'Consolas', monospace;
-    font-size: 13px;
+  flex: 1;
+  padding: 15px;
+  font-family: monospace;
+  font-size: 13px;
+  outline: none;
+  border: none;
+}
+#code-view {
+  background: #1e1e1e;
+  color: #76d6ff;
+  white-space: pre-wrap;
+}
+
+.editor-toolbar {
+  padding: 8px;
+  background: #fdfdfd;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.editor-toolbar button {
+  background: #fff;
+  border: 1px solid #d1cce0;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #6e5ba7;
+}
+
+.editor-toolbar button:hover {
+  background: #f1eff9;
+  border-color: #6e5ba7;
+}
+
+.editor-toolbar button.active {
+  background: #6e5ba7;
+  color: #fff;
+}
+
+.editor-toolbar .separator {
+  width: 1px;
+  height: 20px;
+  background: #e1ddec;
+  margin: 0 4px;
+}
+
+.editor-toolbar button[onclick*="h1"],
+.editor-toolbar button[onclick*="h2"] {
+  font-weight: bold;
+}
+
+.editor-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 5;
+  text-align: center;
+  color: #aaa;
+  width: 100%;
+}
+
+.editor-placeholder .upload-link {
+  cursor: pointer;
+  pointer-events: auto;
+  color: #6e5ba7;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* 반응형 */
+@media (max-width: 800px) {
+  body {
+    overflow: auto;
+  }
+
+  header {
+    height: auto;
+    flex-direction: column;
+    padding: 12px 15px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  header.hide {
+    transform: translateY(-100%);
+  }
+  .site-logo {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+  }
+  .meta-inputs {
+    flex-direction: column;
+    width: 100%;
+  }
+  .meta-inputs input[type="text"] {
+    width: 100%;
+    height: 30px;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+  }
+  .row-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+  }
+  .toc-settings,
+  .file-group,
+  .help-container,
+  button#download-epub {
+    flex: 1;
+    justify-content: center;
+  }
+
+  button#download-epub {
+    flex: 0 1 auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  .help-container {
+    display: none;
+  }
+
+  .help-container:hover .help-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) !important;
+  }
+
+  .container {
+    height: auto;
+    overflow: visible;
+  }
+
+  .main-layout {
+    flex-direction: column;
+    height: auto;
+    gap: 15px;
+  }
+
+  .pane {
+    width: 100%;
+    height: 400px;
+    flex: none;
+  }
+
+  #editor-container {
+    height: 300px;
+  }
 }
