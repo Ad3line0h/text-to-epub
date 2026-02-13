@@ -377,7 +377,7 @@ button#download-epub:hover {
 }
 
 /* 반응형 */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   body {
     overflow: auto;
   }
@@ -474,3 +474,4 @@ button#download-epub:hover {
     height: 300px;
   }
 }
+
