@@ -45,6 +45,17 @@ function updateCode() {
     codeView.innerText = formatted.trim();
 }
 
+// 서식 없이 붙여넣기
+editor.addEventListener('paste', function(e) {
+    e.preventDefault();
+
+    const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+    document.execCommand('insertText', false, text);
+    
+    updateCode();
+});
+
 // EPUB 변환 스크립트
 // 아직도 원리 이해 못함
 // 근데 작동하니까 안건드릴거임
@@ -91,12 +102,25 @@ document.getElementById('download-epub').onclick = async () => {
         oebps.file("toc.ncx", `<?xml version="1.0" encoding="UTF-8"?><ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1"><head><meta name="dtb:uid" content="${uuid}"/></head><docTitle><text>${title}</text></docTitle><navMap>${nav}</navMap></ncx>`);
         oebps.file("content.opf", `<?xml version="1.0" encoding="utf-8"?><package xmlns="http://www.idpf.org/2007/opf" unique-identifier="id" version="2.0"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf"><dc:identifier id="id">${uuid}</dc:identifier><dc:title>${title}</dc:title><dc:creator opf:role="aut">${author}</dc:creator><dc:language>ko</dc:language>${coverFile?'<meta name="cover" content="ci"/>':''}</metadata><manifest><item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/><item id="css" href="Styles/Style0001.css" media-type="text/css"/>${manifest}</manifest><spine toc="ncx">${spine}</spine></package>`);
 
-        const blob = await zip.generateAsync({ type: "blob" });
+        const blob = await zip.generateAsync({ 
+        type: "blob",
+        mimeType: "application/epub+zip"
+        });
+
         const a = document.createElement('a');
+        const fileName = `${title}.epub`;
+
         a.href = URL.createObjectURL(blob);
-        a.download = `${title}.epub`;
+        a.download = fileName;
         a.click();
-    } catch (e) { alert("에러: " + e.message); }
+
+        // 메모리 삭제
+    setTimeout(() => {
+        URL.revokeObjectURL(url);
+        a.remove(); 
+    }, 100);
+
+    } catch (e) { alert("error: " + e.message); }
 };
 
 function getChapters(bookTitle) {
