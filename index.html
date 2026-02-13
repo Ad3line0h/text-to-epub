@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>초간단 EPUB 변환</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="meta-inputs">
+        <input type="text" id="book-title" placeholder="제목">
+        <input type="text" id="book-author" placeholder="저자명">
+        <div class="toc-settings">
+            <span>목차 생성</span>
+            <label><input type="checkbox" id="split-h1"> h1</label>
+            <label><input type="checkbox" id="split-h2"> h2</label>
+        </div>
+        <div class="file-group">
+            <label for="cover-upload">표지</label>
+            <input type="file" id="cover-upload" accept="image/jpeg, image/png">
+        </div>
+    </div>
+
+    <div class="header-right">
+        <div class="help-container">
+            <span class="help-icon">?</span>
+            <div class="help-tooltip">
+                <strong>단축키</strong>
+                <hr>
+                <div class="help-item"><b>Ctrl + 1</b> h1 변경</div>
+                <div class="help-item"><b>Ctrl + 2</b> h2 변경</div>
+                <div class="help-item"><b>Ctrl + P</b> 본문 변경</div>
+                <hr>
+                <small>* 목차 미설정 시 제목으로 자동 생성</small>
+            </div>
+        </div>
+        <button id="download-epub">EPUB 다운로드</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="main-layout">
+        <div class="pane">
+            <div class="pane-title">EDITOR</div>
+            <div id="editor" contenteditable="true" placeholder="내용을 입력하세요..."></div>
+        </div>
+
+        <div class="pane">
+            <div class="pane-title">CSS</div>
+            <textarea id="css-editor" placeholder="커스텀 CSS 입력...">
+p {
+    text-indent: 1em; /* 들여쓰기 원치 않으면 삭제 */
+}
+h1, h2 {
+    text-align: center;
+    margin-top: 1em;
+}</textarea>
+        </div>
+
+        <div class="pane">
+            <div class="pane-title">XHTML</div>
+            <div id="code-view"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

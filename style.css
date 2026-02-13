@@ -1,0 +1,292 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+/* 기본 */
+* { box-sizing: border-box; }
+body {
+    font-family: 'Pretendard', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    background: #f8f7ff;
+}
+
+/* 헤더 */
+header {
+    background: #6e5ba7;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 15px rgba(110, 91, 167, 0.2);
+    z-index: 100;
+}
+
+.meta-inputs {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.meta-inputs input[type="text"] {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.meta-inputs input[type="text"]:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.meta-inputs input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* 표지 */
+.file-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+}
+
+.file-group label {
+    font-size: 12px;
+    color: #fff;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+#cover-upload {
+    font-size: 12px;
+    color: #eee;
+    max-width: 180px;
+}
+
+/* 목차 */
+.toc-settings {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #fff;
+    align-items: center;
+}
+
+.toc-settings span {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.toc-settings label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 도움말 */
+.help-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.help-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.help-icon:hover {
+    background: #fff;
+    color: #6e5ba7;
+}
+
+.help-tooltip {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    width: 220px;
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #4a3f6b;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.help-container:hover .help-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.help-tooltip strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #6e5ba7;
+    font-size: 14px;
+}
+
+.help-tooltip hr {
+    border: 0;
+    border-top: 1px solid #f0edf5;
+    margin: 10px 0;
+}
+
+.help-item {
+    font-size: 12px;
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.help-item b {
+    color: #8a79c5;
+    margin-right: 5px;
+}
+
+.help-tooltip small {
+    font-size: 11px;
+    color: #999;
+}
+
+/* 다운로드 */
+button#download-epub {
+    background: #8a79c5;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+button#download-epub:hover {
+    background: #b3a3ee;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 컨테이너 */
+.container {
+    flex: 1;
+    display: flex;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    gap: 15px;
+    width: 100%;
+}
+
+.pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e1ddec;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(110, 91, 167, 0.05);
+}
+
+.pane-title {
+    background: #f1eff9;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #8a79c5;
+    border-bottom: 1px solid #e1ddec;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* 에디터 */
+#editor, #css-editor, #code-view {
+    flex: 1;
+    padding: 20px;
+    outline: none;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+#editor {
+    background: #fff;
+    color: #444;
+}
+
+#editor p {
+    margin: 0 0 1.2em 0;
+}
+
+#css-editor {
+    background: #faf9ff;
+    border: none;
+    resize: none;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    color: #5c5470;
+}
+
+.toc-settings, .file-group {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 8px;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #fff;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* XTML */
+#code-view {
+    background: #1e1e1e;
+    color: #76d6ff;
+    white-space: pre-wrap;
+    font-family: 'Consolas', monospace;
+    font-size: 13px;
+}
