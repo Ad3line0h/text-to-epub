@@ -133,6 +133,9 @@ function updateCode() {
     }
   });
   codeView.innerText = formatted.trim();
+  
+  // EPUB 미리보기 업데이트
+  updatePreview();
 }
 
 // 서식 없이 붙여넣기
@@ -384,4 +387,68 @@ window.addEventListener("scroll", () => {
   }
 
   lastScrollY = currentScrollY;
+});
+
+// EPUB 미리보기 업데이트
+function updatePreview() {
+  const epubPreview = document.getElementById("epub-preview");
+  const temp = document.createElement("div");
+  temp.innerHTML = editor.innerHTML;
+
+  temp.querySelectorAll("div").forEach((div) => {
+    const p = document.createElement("p");
+    p.innerHTML = div.innerHTML;
+    div.parentNode.replaceChild(p, div);
+  });
+
+  epubPreview.innerHTML = temp.innerHTML;
+  
+  // CSS 적용
+  applyCustomCSS();
+}
+
+// CSS 스타일을 미리보기에도 적용
+function applyCustomCSS() {
+  const epubPreview = document.getElementById("epub-preview");
+  let styleEl = epubPreview.querySelector("style");
+  
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    epubPreview.insertBefore(styleEl, epubPreview.firstChild);
+  }
+  
+  styleEl.textContent = cssEditor.value;
+}
+
+// CSS 에디터 변경 시 미리보기 업데이트
+cssEditor.addEventListener("input", () => {
+  applyCustomCSS();
+});
+
+// 탭 전환 기능
+document.addEventListener("DOMContentLoaded", () => {
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetTab = btn.getAttribute("data-tab");
+      
+      // 모든 탭 버튼 비활성화
+      tabButtons.forEach((b) => b.classList.remove("active"));
+      // 클릭한 탭 버튼 활성화
+      btn.classList.add("active");
+      
+      // 모든 탭 콘텐츠 숨기기
+      document.querySelectorAll(".tab-content").forEach((content) => {
+        content.classList.remove("active");
+      });
+      
+      // 선택한 탭 콘텐츠 표시
+      if (targetTab === "xhtml") {
+        document.getElementById("code-view").classList.add("active");
+      } else if (targetTab === "preview") {
+        document.getElementById("epub-preview").classList.add("active");
+      }
+    });
+  });
 });

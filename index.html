@@ -99,8 +99,14 @@ h1, h2 { text-align: center; margin-top: 1em; }
         </div>
 
         <div class="pane">
-          <div class="pane-title">XHTML</div>
-          <div id="code-view"></div>
+          <div class="pane-title">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-tab="preview">PREVIEW</button>
+              <button class="tab-btn" data-tab="xhtml">XHTML</button>
+            </div>
+          </div>
+          <div id="code-view" class="tab-content"></div>
+          <div id="epub-preview" class="tab-content epub-preview-container active"></div>
         </div>
       </div>
     </div>
