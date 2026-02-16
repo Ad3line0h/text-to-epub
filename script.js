@@ -432,19 +432,24 @@ document.addEventListener("DOMContentLoaded", () => {
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetTab = btn.getAttribute("data-tab");
+      const parentPane = btn.closest(".pane");
       
-      // 모든 탭 버튼 비활성화
-      tabButtons.forEach((b) => b.classList.remove("active"));
+      // 같은 패널 내의 탭 버튼들만 비활성화
+      parentPane.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
       // 클릭한 탭 버튼 활성화
       btn.classList.add("active");
       
-      // 모든 탭 콘텐츠 숨기기
-      document.querySelectorAll(".tab-content").forEach((content) => {
+      // 같은 패널 내의 탭 컨텐츠만 숨기기
+      parentPane.querySelectorAll(".tab-content").forEach((content) => {
         content.classList.remove("active");
       });
       
-      // 선택한 탭 콘텐츠 표시
-      if (targetTab === "xhtml") {
+      // 선택한 탭 컨텐츠 표시
+      if (targetTab === "editor") {
+        document.getElementById("editor-tab").classList.add("active");
+      } else if (targetTab === "css") {
+        document.getElementById("css-tab").classList.add("active");
+      } else if (targetTab === "xhtml") {
         document.getElementById("code-view").classList.add("active");
       } else if (targetTab === "preview") {
         document.getElementById("epub-preview").classList.add("active");

@@ -561,6 +561,17 @@ button#download-epub:hover {
   display: block;
 }
 
+#editor-tab,
+#css-tab {
+  display: none;
+  flex-direction: column;
+}
+
+#editor-tab.active,
+#css-tab.active {
+  display: flex;
+}
+
 /* EPUB 미리보기 */
 .epub-preview-container {
   background: #f9f7f4;
