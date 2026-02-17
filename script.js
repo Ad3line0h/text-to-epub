@@ -88,6 +88,36 @@ document
 
 // 단축키
 editor.addEventListener("keydown", (e) => {
+  // 말풍선 탈출: 말풍선 안에서 Enter 시 말풍선 바깥에 새 p 삽입
+  if (e.key === "Enter" && !e.shiftKey) {
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    const bubble = range.startContainer.nodeType === Node.TEXT_NODE
+      ? range.startContainer.parentElement.closest(".speech-bubble")
+      : range.startContainer.closest(".speech-bubble");
+
+    if (bubble) {
+      const isAtEnd = range.collapsed &&
+        range.startContainer === bubble.querySelector("p:last-child") &&
+        range.startOffset === range.startContainer.textContent.length;
+
+      if (isAtEnd) {
+        e.preventDefault();
+        const newP = document.createElement("p");
+        newP.appendChild(document.createElement("br"));
+        bubble.insertAdjacentElement("afterend", newP);
+        const newRange = document.createRange();
+        newRange.setStart(newP, 0);
+        newRange.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+        updateCode();
+        checkContent();
+      }
+    }
+  }
+
   if (e.ctrlKey || e.metaKey) {
     switch (e.key.toLowerCase()) {
       case "1":
@@ -147,7 +177,61 @@ editor.addEventListener("paste", function (e) {
   checkContent();
 });
 
-// 텍스트 툴바
+// 폰트 크기 드롭다운 메뉴
+let savedRange = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("font-size-select").addEventListener("mousedown", () => {
+    const selection = window.getSelection();
+    if (selection.rangeCount) {
+      savedRange = selection.getRangeAt(0).cloneRange();
+    }
+  });
+});
+
+function setFontSize(size) {
+  if (!size) return;
+
+  editor.focus();
+
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  if (savedRange) selection.addRange(savedRange);
+
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  const span = document.createElement("span");
+  span.style.fontSize = size + "px";
+
+  if (!selection.isCollapsed) {
+    const fragment = range.extractContents();
+    fragment.querySelectorAll("span").forEach((s) => {
+      s.style.fontSize = "";
+      if (!s.getAttribute("style")) {
+        const children = Array.from(s.childNodes);
+        children.forEach((child) => s.parentNode.insertBefore(child, s));
+        s.remove();
+      }
+    });
+    span.appendChild(fragment);
+    range.insertNode(span);
+  } else {
+    const zeroWidthSpace = document.createTextNode("\u200B");
+    span.appendChild(zeroWidthSpace);
+    range.insertNode(span);
+    const newRange = document.createRange();
+    newRange.setStart(span, 1);
+    newRange.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+  }
+
+  updateCode();
+  document.getElementById("font-size-select").value = "";
+  savedRange = null;
+}
+
 function format(command, value = null) {
   if (command === "formatBlock") {
     const currentBlock = document.queryCommandValue("formatBlock");
@@ -195,8 +279,29 @@ function updateToolbar() {
   });
 }
 
+function updateFontSizeSelect() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const node = selection.getRangeAt(0).startContainer;
+  const el = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
+  const fontSize = window.getComputedStyle(el).fontSize;
+  const px = Math.round(parseFloat(fontSize));
+  const select = document.getElementById("font-size-select");
+
+  // 일치 값 존재할 때만 반영
+  if ([...select.options].some((o) => parseInt(o.value) === px)) {
+    select.value = String(px);
+  } else {
+    select.value = "";
+  }
+}
+
 document.addEventListener("selectionchange", () => {
-  if (document.activeElement === editor) updateToolbar();
+  if (document.activeElement === editor) {
+    updateToolbar();
+    updateFontSizeSelect();
+  }
 });
 
 editor.addEventListener("click", updateToolbar);
@@ -357,9 +462,20 @@ function handleFile(input) {
   input.value = "";
 }
 
-// 초기화 실행
-// 메모리 절약 때문이라는데 걍 시켜서 하는거임
+// 폰트 크기 드롭다운 초기화
 window.addEventListener("load", () => {
+  const select = document.getElementById("font-size-select");
+  const defaultOpt = document.createElement("option");
+  defaultOpt.value = "";
+  defaultOpt.textContent = "-";
+  select.appendChild(defaultOpt);
+  for (let i = 7; i <= 32; i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = `${i}px`;
+    select.appendChild(opt);
+  }
+
   if (!editor.innerHTML.trim()) editor.innerHTML = "<p><br></p>";
   updateCode();
   checkContent();
@@ -395,7 +511,7 @@ function updatePreview() {
   const temp = document.createElement("div");
   temp.innerHTML = editor.innerHTML;
 
-  temp.querySelectorAll("div").forEach((div) => {
+  temp.querySelectorAll("div:not(.speech-bubble)").forEach((div) => {
     const p = document.createElement("p");
     p.innerHTML = div.innerHTML;
     div.parentNode.replaceChild(p, div);
@@ -403,8 +519,68 @@ function updatePreview() {
 
   epubPreview.innerHTML = temp.innerHTML;
   
-  // CSS 적용
+
   applyCustomCSS();
+}
+
+// 말풍선
+const SPEECH_BUBBLE_CSS = `
+.speech-bubble {
+  position: relative;
+  background: #f0f0f0;
+  border-radius: 16px;
+  padding: 12px 18px;
+  margin: 1em 0;
+  display: inline-block;
+  max-width: 80%;
+  line-height: 1.6;
+}
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 24px;
+  border-width: 12px 10px 0;
+  border-style: solid;
+  border-color: #f0f0f0 transparent transparent;
+}
+.speech-bubble p {
+  text-indent: 0;
+  margin: 0;
+}`;
+
+function insertSpeechBubble() {
+  // CSS 중복 방지 > 말풍선 없을 때만 추가인데 나중에 수정해야 할 것 같음
+  if (!cssEditor.value.includes(".speech-bubble")) {
+    cssEditor.value += SPEECH_BUBBLE_CSS;
+    applyCustomCSS();
+  }
+
+  // 말풍선 요소 삽입
+  const bubble = document.createElement("div");
+  bubble.className = "speech-bubble";
+  const p = document.createElement("p");
+  p.appendChild(document.createElement("br"));
+  bubble.appendChild(p);
+
+  editor.focus();
+  const selection = window.getSelection();
+  if (selection.rangeCount) {
+    const range = selection.getRangeAt(0);
+    range.collapse(false);
+    range.insertNode(bubble);
+    // 커서를 말풍선 안으로 이동
+    const newRange = document.createRange();
+    newRange.setStart(p, 0);
+    newRange.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+  } else {
+    editor.appendChild(bubble);
+  }
+
+  updateCode();
+  checkContent();
 }
 
 // CSS 스타일을 미리보기에도 적용

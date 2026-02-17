@@ -72,6 +72,8 @@
               <div class="separator"></div>
               <button onclick="format('formatBlock', 'h1')">h1</button>
               <button onclick="format('formatBlock', 'h2')">h2</button>
+              <div class="separator"></div>
+              <select id="font-size-select" onchange="setFontSize(this.value)" title="글자 크기"></select>
             </div>
             <div
               id="editor-container"
@@ -96,6 +98,9 @@
             </div>
           </div>
           <div class="tab-content" id="css-tab">
+            <div class="css-toolbar">
+              <button class="css-tool-btn" onclick="insertSpeechBubble()" title="말풍선 삽입">말풍선</button>
+            </div>
             <textarea id="css-editor">
 p { text-indent: 1em; }
 h1, h2 { text-align: center; margin-top: 1em; }

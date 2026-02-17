@@ -254,6 +254,8 @@ button#download-epub:hover {
   flex: 1;
   gap: 15px;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .pane {
   flex: 1;
@@ -350,6 +352,22 @@ button#download-epub:hover {
   height: 20px;
   background: #e1ddec;
   margin: 0 4px;
+}
+
+.editor-toolbar select {
+  background: #fff;
+  border: 1px solid #d1cce0;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #6e5ba7;
+  outline: none;
+}
+
+.editor-toolbar select:hover {
+  background: #f1eff9;
+  border-color: #6e5ba7;
 }
 
 .editor-toolbar button[onclick*="h1"],
@@ -570,6 +588,33 @@ button#download-epub:hover {
 #editor-tab.active,
 #css-tab.active {
   display: flex;
+}
+
+/* CSS 탭 툴바 */
+.css-toolbar {
+  padding: 8px;
+  background: #fdfdfd;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.css-tool-btn {
+  background: #fff;
+  border: 1px solid #d1cce0;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #6e5ba7;
+  transition: all 0.2s;
+}
+
+.css-tool-btn:hover {
+  background: #f1eff9;
+  border-color: #6e5ba7;
 }
 
 /* EPUB 미리보기 */
